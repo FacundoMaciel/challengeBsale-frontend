@@ -1,5 +1,5 @@
 //Variables
-const url = 'https://challengebsale-backend-production.up.railway.app/api/products'
+const url = 'https://challengebsale-backend.herokuapp.com/api/products'
 const products = document.querySelector('#products')
 const searchBarInput = document.querySelector('#input')
 //Event
