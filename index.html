@@ -23,17 +23,19 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
       rel="stylesheet"
     />
-    <!--Axios-->
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body class="bg-light">
+  <!--Bootstrap for some functions-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <!--Header mobile up with bootstrap-->
     <header class="sticky-top header-bg">
+      <!--Responsive navbar with UL to select by category-->
         <nav class="navbar navbar-expand-lg bg-info">
             <div class="container-fluid">
               <a href="#" onclick="getProducts()">
               <img src="./assets/images/logobsale-open.jpg" alt="NotFound" width="80"/>
               </a>
+              <!--Responsive hamburger menu when resizing the screen-->
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon bg-light bg-rounded text-black"></span>
               </button>
@@ -42,8 +44,11 @@
                   <li class="nav-item">
                     <a class="nav-link text-white" 
                        href="#"
-                       onclick="productsByCategory(1)"
+                       onclick="productsByCategory(1)" 
                        >Bebida Energetica</a>
+                       <!--productsByCategory(1) 
+                        function in the onclick that brings me the category 
+                        according to the number as a parameter-->
                   </li>
                   <li class="nav-item">
                     <a class="nav-link text-white" 
@@ -78,22 +83,29 @@
                        onclick="productsByCategory(7)">Vodka</a>
                   </li>
                 </ul>
+                <!--Responsive searchBar-->
                 <form class="d-flex" role="search" id="form">
                   <input class="form-control me-2" id="input" type="search" placeholder="Buscar..." aria-label="Search">
-                  <button class="btn btn-outline-dark text-white" type="submit">Buscar</button>
+                  <button class="btn btn-outline-dark text-white" id="myBtn " type="submit">Buscar</button>
                 </form>
               </div>
             </div>
           </nav>
         </header>
+       <!--Products-->
         <section class="py-5">
+          <!--Container where the product cards will be displayed-->
           <div class="container">
+            <!--Products card-->
             <div class="row"  id="products">
 
             </div>
           </div>
       </section>
+      <!--Inject my JavaScript code to display all the products, 
+        by category, the use of the search bar and the corresponding ordering-->
     <script src="javaScript/index.js"></script>
+    <!-- Jquery for some functions -->
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
