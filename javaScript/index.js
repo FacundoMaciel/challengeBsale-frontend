@@ -63,14 +63,14 @@ const showProducts = (data) => {
     // Then the HTML element is replaced by what is created
     // Entonces el elemento HTML es reemplazado por lo que se crea
     productDiv.innerHTML =
-      `<div class="card h-100 bg-light">
-    <div class="card mb-3" style="max-width: 540px;">
-      <div class="row g-0">
-       <div class="col-md-4">
-        <img class="card-img-top" src="
-        ${url_image == '' || url_image == null
-        ? `https://www.bancoprovincia.com.ar/Content/imgs/c_inver01.gif`
-        : url_image
+      `
+        <div class="card mb-3 h-100 border-light shadow" >
+         <div class="row g-0">
+          <div class="col-md-4">
+           <img class="card-img" src="
+            ${url_image == '' || url_image == null
+             ? `https://www.bancoprovincia.com.ar/Content/imgs/c_inver01.gif`
+             : url_image
       /* Ternary operator where it is said that if the 
          url_image parameter contains an empty string or null it shows the default image 
          with "content not available" or if it contains an image that shows it.
@@ -82,7 +82,7 @@ const showProducts = (data) => {
     <div class="col-md-8">
      <div class="card-body">
      ${discount > 0
-        ? `<span class="badge text-danger position-relative top-100 start-100 translate-middle" >En OFERTA por tiempo limitado!</span>
+        ? `<h5 class="text-success m-10">OFERTA!</h5>
         <h6 class="fw-bolder">${name.slice(0, 20)}...><span class="badge bg-success text-white" > ${discount}%Off</span></h6>
         `
         :
@@ -97,10 +97,11 @@ const showProducts = (data) => {
       */
       }  
       ${discount > 0
-        ? `<h6 class="text-decoration-underline">$${((100 - discount) * price) / 100}
-               <span class="ml-20 badge text-white bg-success m-2 p-1"> Ahora</span> </h6>
-               <span class="text-muted text-decoration-line-through">$${price}</span>
-               <span class="ml-20 badge text-white bg-danger p-1"> Antes</span>`
+        ?`<span class=" badge text-white bg-success p-1"> Ahora</span><h6 class="text-decoration-underline">$${((100 - discount) * price) / 100}
+         </h6>
+         <span class="ml-20 badge text-white bg-danger p-1"> Antes</span>
+               <h6 class="text-muted text-decoration-line-through">$${price}</h6>
+               `
         : `<h5 class="text-decoration-line-through">$${price}</h5>`
       /*
       Ternary operator where it is said that if the discount is greater than 0, 
@@ -115,8 +116,9 @@ const showProducts = (data) => {
          </div>
       </div>
     </div>
-  </div>
-    `;
+
+ 
+  `;
 
     // Insert productDiv inside the container for the DOM
     // Insertar productDiv dentro del container para el DOM
@@ -139,7 +141,7 @@ function searchProduct(e) {
 
   // Clean variable of spaces and unnecessary content using Trim method
   // Limpiar la variable de espacios y contenido innecesario usando el método Trim
-  const input = searchBarInput.value.trim()
+  // const input = searchBarInput.value.trim() (Sin utilizar para que el usuario escriba con espacios)
 
   /* 
   Function to obtain the products through the Fetch method, handling the response (promise) with the .then method, 
@@ -148,25 +150,27 @@ function searchProduct(e) {
   Función para obtener los productos a través del método Fetch, manejando la respuesta (promise) con el método .then,
   indicando como parámetro el EndPoint del backend con el producto por query-Request.
   */
-  fetch(`${url}/product?s=${input}`)
+  fetch(`${url}/product?s=${searchBarInput.value}`)
     .then(resp => resp.json())
     .then((data) => showProducts(data))
+
+
   // If there is nothing in the input an alert is sent with an error message
   // Si no hay nada en el input, se muestra una alerta con un mensaje de error.
-  if (!input) {
-    return alert('Escribir el nombre de un procuto para una correcta busqueda')
+  if (!searchBarInput.value) {
+    return alert('Escribir el nombre de un producto para una correcta busqueda')
   }
   // If the input contains more than 15 characters, an alert is sent with an error message
   // Si el input contiene más de 15 caracteres, se muestra una alerta con un mensaje de error
-  if (input.length > 15) {
+  if (searchBarInput.value.length > 15) {
     alert('El nombre del producto ingresado supera el maximo de carateres')
     return getProducts()
   }
   // If the input contains illegal characters, an alert is sent with an error message
   // Si el input contiene caracteres no permitidos, se muestra una alerta con un mensaje de error.
   let correctInput = /^[a-zA-Z ]+$/;
-  if (!input.match(correctInput)) {
-    alert('El nombre ingresado cotiene caracteres incorrectos para la busqueda')
+  if (!searchBarInput.value.match(correctInput)) {
+    alert('El nombre ingresado contiene caracteres incorrectos para la busqueda')
     return getProducts()
   }
   form.reset();
