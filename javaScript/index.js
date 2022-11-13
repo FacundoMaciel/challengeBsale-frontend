@@ -8,23 +8,17 @@ const searchBarInput = document.querySelector('#input')
 
 // Event // Evento
 /*
- Listener that tells the browser to listen for user interaction with the getProducts function as the second parameter
- the getProducts function is explained in the line 20
- The DOMContentLoaded, is executed when the content of the DOM has been completely loaded 
- and is ready to receive Javascript instructions.
+ 
 
- Escuchador que le dice al navegador que escuche la interacción del usuario 
- con la función getProducts como segundo parámetro
- la función getProducts se explica en la línea 20
- El DOMContentLoaded, se ejecuta cuando el contenido del DOM se ha cargado por completo
- y está listo para recibir instrucciones Javascript.
+ Añade evento al cargarse el contenido del DOM por completo y ejecuta la funcion getProducts
+ La función getProducts se explica en la línea 25
 */
 document.addEventListener('DOMContentLoaded', getProducts)
 
 /// FUNCTIONS ///
 
-// Function to get all the products through the Fetch method, handling the response (promise) with the .then method
-// Función para obtener todos los productos a través del método Fetch, manejando la respuesta (promesa) con el método .then
+// Function to get all the products through the Fetch method.
+// Función para obtener todos los productos a través del método Fetch.
 function getProducts() {
   fetch(url)
     .then(resp => resp.json())
@@ -33,7 +27,9 @@ function getProducts() {
 // Function to display the products indicating their styles and composition of your card.
 // Función para mostrar los productos indicando sus estilos y composición de su tarjeta.
 const showProducts = (data) => {
-
+  if(!data.length){
+   return alert('No se encontraron productos')// Si no se encontró el producto se muestra una alerta con un mensaje de error.
+  }
   // A Jquery method was used to clean the element where the product is to be displayed
   // Se utilizó un método Jquery para limpiar el elemento donde se va a mostrar el producto
   $('.product-card').remove();
@@ -74,7 +70,7 @@ const showProducts = (data) => {
       /* Ternary operator where it is said that if the 
          url_image parameter contains an empty string or null it shows the default image 
          with "content not available" or if it contains an image that shows it.
-         Operador ternario donde se dice que si el parámetro url_image contiene una cadena vacía o null 
+         Operador ternario, si el parámetro url_image contiene una cadena vacía o null 
          muestra la imagen por defecto "contenido no disponible", o si contiene una la muestra.
     */
       }" alt="NotFound" />
@@ -91,9 +87,9 @@ const showProducts = (data) => {
        Ternary operator where it is said that if the discount value is greater than 0, 
        the name is displayed with a span that says Offer and the percentage of discount that the product has, 
        otherwise only the name of the product is displayed.
-       Operador ternario donde se dice que si el valor del descuento es mayor a 0 se muestra el nombre con un span 
-       que dice "Oferta" y el porcentaje de descuento que tiene el producto, 
-       en caso contrario solo se muestra el nombre del producto.
+       Operador ternario, si el valor del descuento es mayor a 0 se muestra el nombre del producto con un span 
+       que dice "Oferta" y el porcentaje de descuento que tiene el mismo, 
+       sino solo se muestra el nombre del producto.
       */
       }  
       ${discount > 0
@@ -108,9 +104,7 @@ const showProducts = (data) => {
       apply a discount percentage mathematical operation to show the price with discount 
       and the price without discount, 
       otherwise only show the price.
-      Operador ternario donde se dice que si el descuento es mayor a 0 
-      aplicar una operación matemática de porcentaje de descuento para mostrar el precio con descuento 
-      y el precio sin descuento, en caso contrario solo mostrar el precio.
+      Operador ternario, si la propiedad discount es mayor a 0 aplica el descuento y muestra el antiguo y nuevo precio sino muestra el precio normal.
        */
       }
          </div>
@@ -119,7 +113,6 @@ const showProducts = (data) => {
 
  
   `;
-
     // Insert productDiv inside the container for the DOM
     // Insertar productDiv dentro del container para el DOM
     contDiv.appendChild(productDiv)
@@ -129,7 +122,7 @@ const showProducts = (data) => {
 /// SEARCH BAR ///
 
 //Listener that tells the browser to listen for user interaction with the searchProduct function as the second parameter
-//Escuchador que le dice al navegador que escuche la interacción del usuario, con la función searchProduct como segundo parámetro
+//Añade evento al enviarse el contenido del form y ejecuta la funcion searchProduct.
 form.addEventListener('submit', searchProduct)
 // Function to obtain products according to the name entered by the user.
 // Función para obtener productos de acuerdo al nombre ingresado por el usuario.
@@ -139,16 +132,8 @@ function searchProduct(e) {
   // Prevenir la recarga innecesaria de la página
   e.preventDefault()
 
-  // Clean variable of spaces and unnecessary content using Trim method
-  // Limpiar la variable de espacios y contenido innecesario usando el método Trim
-  // const input = searchBarInput.value.trim() (Sin utilizar para que el usuario escriba con espacios)
-
   /* 
-  Function to obtain the products through the Fetch method, handling the response (promise) with the .then method, 
-  indicating the EndPoint of the backend as a parameter con el producto por query-Request.
-  
-  Función para obtener los productos a través del método Fetch, manejando la respuesta (promise) con el método .then,
-  indicando como parámetro el EndPoint del backend con el producto por query-Request.
+  Peticion GET a traves de fetch para obtener los productos por nombre o coincidencia.
   */
   fetch(`${url}/product?s=${searchBarInput.value}`)
     .then(resp => resp.json())
@@ -168,25 +153,22 @@ function searchProduct(e) {
   }
   // If the input contains illegal characters, an alert is sent with an error message
   // Si el input contiene caracteres no permitidos, se muestra una alerta con un mensaje de error.
-  let correctInput = /^[a-zA-Z ]+$/;
+  let correctInput = /^[A-Za-z0-9\s]+$/g;
   if (!searchBarInput.value.match(correctInput)) {
     alert('El nombre ingresado contiene caracteres incorrectos para la busqueda')
     return getProducts()
   }
   form.reset();
-
 }
-
 
 //PRODUCTS BY CATEGORY
 /*
 Function to obtain the products by category to which they correspond through the Fetch method,
 handling the response (promise) with the .then method,
-indicating the EndPoint of the backend as a parameter with the category by query-Request
+indicating the EndPoint of the backend as a parameter with the category by query
 
-Función para obtener los productos por categoría a la que corresponden a través del método Fetch,
-manejando la respuesta (promesa) con el método .then,
-indicando el EndPoint del backend como parámetro con la categoría por query-Request
+Función para obtener los productos por categoría a la que corresponden a través del método Fetch.
+indicando el EndPoint del backend como parámetro con la categoría por query
 */
 function productsByCategory(category) {
   fetch(`${url}/category?c=${category}`)
