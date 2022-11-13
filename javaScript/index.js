@@ -3,12 +3,16 @@
 // Dirección de implementación de back-end
 const url = 'https://challengebsale-backend.herokuapp.com/api/products'
 // Selectors to indicate the id in this case, in the html file
+// Selectores para indicar en este caso el id, en el archivo html
 const products = document.querySelector('#products')
 const searchBarInput = document.querySelector('#input')
 
-// Event // Evento
+
+
+// Event 
 /*
- 
+ Add event when the DOM content is completely loaded and execute the getProducts function
+ The getProducts function is explained on line 25
 
  Añade evento al cargarse el contenido del DOM por completo y ejecuta la funcion getProducts
  La función getProducts se explica en la línea 25
@@ -17,8 +21,8 @@ document.addEventListener('DOMContentLoaded', getProducts)
 
 /// FUNCTIONS ///
 
-// Function to get all the products through the Fetch method.
-// Función para obtener todos los productos a través del método Fetch.
+// Function to get all the products through the fetch method.
+// Función para obtener todos los productos a través del método fetch.
 function getProducts() {
   fetch(url)
     .then(resp => resp.json())
@@ -34,9 +38,9 @@ const showProducts = (data) => {
   // Se utilizó un método Jquery para limpiar el elemento donde se va a mostrar el producto
   $('.product-card').remove();
 
-  // A selector to indicate the ID of the HTML element
-  // Un selector para indicar el ID del elemento HTML
-  const contDiv = document.querySelector('#products');
+  // Save the selection of the HTML element in a constant
+  // Guardar en una constante la seleccion del elemento HTML
+  const contDiv = products;
 
   // forEach loop to iterate the array of products and create a DIV for each one with the characteristics passed by parameter
   // bucle forEach para iterar el arreglo de productos y crear un DIV para cada uno con las características pasadas por parámetro
@@ -67,28 +71,27 @@ const showProducts = (data) => {
             ${url_image == '' || url_image == null
              ? `https://www.bancoprovincia.com.ar/Content/imgs/c_inver01.gif`
              : url_image
-      /* Ternary operator where it is said that if the 
-         url_image parameter contains an empty string or null it shows the default image 
-         with "content not available" or if it contains an image that shows it.
-         Operador ternario, si el parámetro url_image contiene una cadena vacía o null 
-         muestra la imagen por defecto "contenido no disponible", o si contiene una la muestra.
-    */
+      /* 
+      Ternary operator, if the url_image parameter contains an empty string or null it shows the default image 
+      "content not available", or if contains one shows it.
+      Operador ternario, si el parámetro url_image contiene una cadena vacía o null muestra la imagen por defecto 
+      "contenido no disponible", o si contiene una la muestra.
+      */
       }" alt="NotFound" />
       </div>
     <div class="col-md-8">
      <div class="card-body">
      ${discount > 0
-        ? `<h5 class="text-success m-10">OFERTA!</h5>
+        ? `<h5 class="text-success m-10 ">OFERTA!</h5>
         <h6 class="fw-bolder">${name.slice(0, 20)}...><span class="badge bg-success text-white" > ${discount}%Off</span></h6>
         `
         :
         `<h6 class="fw-bolder">${name}</h6>`
       /*
-       Ternary operator where it is said that if the discount value is greater than 0, 
-       the name is displayed with a span that says Offer and the percentage of discount that the product has, 
-       otherwise only the name of the product is displayed.
-       Operador ternario, si el valor del descuento es mayor a 0 se muestra el nombre del producto con un span 
-       que dice "Oferta" y el porcentaje de descuento que tiene el mismo, 
+       Ternary operator, if the value of the discount is greater than 0, the name of the product is shown with a span
+       that says "Offer" and the percentage of discount that it has, otherwise only the name of the product is shown.
+       Operador ternario, si el valor del descuento es mayor a 0 se muestra el nombre del producto 
+       con un span que dice "Oferta" y el porcentaje de descuento que tiene el mismo, 
        sino solo se muestra el nombre del producto.
       */
       }  
@@ -100,18 +103,13 @@ const showProducts = (data) => {
                `
         : `<h5 class="text-decoration-line-through">$${price}</h5>`
       /*
-      Ternary operator where it is said that if the discount is greater than 0, 
-      apply a discount percentage mathematical operation to show the price with discount 
-      and the price without discount, 
-      otherwise only show the price.
+      Ternary operator, if the discount property is greater than 0, it applies the discount and shows the old and new price, otherwise it shows the normal price.
       Operador ternario, si la propiedad discount es mayor a 0 aplica el descuento y muestra el antiguo y nuevo precio sino muestra el precio normal.
        */
       }
          </div>
       </div>
     </div>
-
- 
   `;
     // Insert productDiv inside the container for the DOM
     // Insertar productDiv dentro del container para el DOM
@@ -124,15 +122,32 @@ const showProducts = (data) => {
 //Listener that tells the browser to listen for user interaction with the searchProduct function as the second parameter
 //Añade evento al enviarse el contenido del form y ejecuta la funcion searchProduct.
 form.addEventListener('submit', searchProduct)
+
+//Request control with a debounce function
+//Control de peticiones con una funcion debounce
+let debounceInput = debounce(()=>{
+  console.log(searchBarInput.value)
+}, 3000)
+
+function debounce (cb, delay) {
+  let timer
+  return (...args) => {
+    clearTimeout(timer)
+    timer = setTimeout(()=>{
+      cb(...args)
+    }, delay)
+  }
+}
+input.addEventListener('input', debounceInput)
+
 // Function to obtain products according to the name entered by the user.
 // Función para obtener productos de acuerdo al nombre ingresado por el usuario.
 function searchProduct(e) {
-
   // Prevent unnecessary page reload
   // Prevenir la recarga innecesaria de la página
   e.preventDefault()
-
   /* 
+  GET request through fetch to get products by name or match.
   Peticion GET a traves de fetch para obtener los productos por nombre o coincidencia.
   */
   fetch(`${url}/product?s=${searchBarInput.value}`)
@@ -163,9 +178,8 @@ function searchProduct(e) {
 
 //PRODUCTS BY CATEGORY
 /*
-Function to obtain the products by category to which they correspond through the Fetch method,
-handling the response (promise) with the .then method,
-indicating the EndPoint of the backend as a parameter with the category by query
+Function to obtain the products by category to which they correspond through the Fetch method.
+Indicating the EndPoint of the backend as a parameter with the category per query
 
 Función para obtener los productos por categoría a la que corresponden a través del método Fetch.
 indicando el EndPoint del backend como parámetro con la categoría por query
