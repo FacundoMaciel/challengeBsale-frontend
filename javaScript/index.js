@@ -2,12 +2,12 @@
 // Backend deploy address
 // Dirección de implementación de back-end
 const url = 'https://challengebsale-backend.herokuapp.com/api/products'
+const urlCategories = 'https://challengebsale-backend.herokuapp.com/api/category'
 // Selectors to indicate the id in this case, in the html file
 // Selectores para indicar en este caso el id, en el archivo html
-const products = document.querySelector('#products')
-const searchBarInput = document.querySelector('#input')
-
-
+const products = document.getElementById('products')
+const searchBarInput = document.getElementById('input')
+const categoryList = document.getElementById('ul')
 
 // Event 
 /*
@@ -20,7 +20,6 @@ const searchBarInput = document.querySelector('#input')
 document.addEventListener('DOMContentLoaded', getProducts)
 
 /// FUNCTIONS ///
-
 // Function to get all the products through the fetch method.
 // Función para obtener todos los productos a través del método fetch.
 function getProducts() {
@@ -34,6 +33,7 @@ const showProducts = (data) => {
   if(!data.length){
    return alert('No se encontraron productos')// Si no se encontró el producto se muestra una alerta con un mensaje de error.
   }
+  
   // A Jquery method was used to clean the element where the product is to be displayed
   // Se utilizó un método Jquery para limpiar el elemento donde se va a mostrar el producto
   $('.product-card').remove();
@@ -50,8 +50,6 @@ const showProducts = (data) => {
     // CLASS
     const productDivClass = [
       'col-lg-6',
-      'col-md-8',
-      'col-sm-7',
       'mb-3',
       'product-card',
     ];
@@ -64,8 +62,8 @@ const showProducts = (data) => {
     // Entonces el elemento HTML es reemplazado por lo que se crea
     productDiv.innerHTML =
       `
-        <div class="card mb-3 h-100 border-light shadow" >
-         <div class="row g-0">
+        <div class="card mb-3 h-100 border-light shadow " id="card" >
+         <div class="row g-0" >
           <div class="col-md-4">
            <img class="card-img" src="
             ${url_image == '' || url_image == null
@@ -79,8 +77,8 @@ const showProducts = (data) => {
       */
       }" alt="NotFound" />
       </div>
-    <div class="col-md-8">
-     <div class="card-body">
+    <div class="col-md-8 ">
+     <div class="card-body ">
      ${discount > 0
         ? `<h5 class="text-success m-10 ">OFERTA!</h5>
         <h6 class="fw-bolder">${name.slice(0, 20)}...><span class="badge bg-success text-white" > ${discount}%Off</span></h6>
@@ -112,7 +110,7 @@ const showProducts = (data) => {
     </div>
   `;
     // Insert productDiv inside the container for the DOM
-    // Insertar productDiv dentro del container para el DOM
+    // Insertar productDiv dentro del container padre del producto para el DOM
     contDiv.appendChild(productDiv)
   });
 }
@@ -188,4 +186,36 @@ function productsByCategory(category) {
   fetch(`${url}/category?c=${category}`)
     .then(resp => resp.json())
     .then((data) => showProducts(data))
+}
+
+document.addEventListener('DOMContentLoaded', theCategory)
+
+function theCategory() {
+  fetch(urlCategories)
+    .then(resp => resp.json()) 
+    .then((data) => showCategory(data))
+}
+
+
+const showCategory = (data) => {
+  const ulCategory = categoryList;
+  
+  data?.filter((item) => {
+    const liCategory = document.createElement('li');
+    
+    liCategory.innerHTML =
+      `
+        <li class="nav-item">
+          <a class="nav-link text-black text-capitalize" 
+          href="#" 
+          onclick="productsByCategory(${item.id})">
+           ${item.name}
+          </a>
+          </li>
+          <hr/>
+        `;
+    // Insert productDiv inside the container for the DOM
+    // Insertar productDiv dentro del container padre del producto para el DOM
+    ulCategory.appendChild(liCategory)
+  });
 }
