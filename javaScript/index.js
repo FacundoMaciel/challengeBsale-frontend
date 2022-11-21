@@ -214,8 +214,8 @@ const showCategory = (data) => {
           </li>
           <hr/>
         `;
-    // Insert productDiv inside the container for the DOM
-    // Insertar productDiv dentro del container padre del producto para el DOM
+    // Insert liCategory inside the container for the DOM
+    // Insertar liCategory dentro del ul padre de categorias para el DOM
     ulCategory.appendChild(liCategory)
   });
 }
