@@ -1,3 +1,33 @@
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://sujanbyanjankar.com.np/wp-content/uploads/2019/09/javascript.png" width="200" alt="JS Logo" /></a>
+</p>
+
+[circleci-image]: https://sujanbyanjankar.com.np/wp-content/uploads/2019/09/javascript.png
+[circleci-url]: https://sujanbyanjankar.com.np/wp-content/uploads/2019/09/javascript.png
+
+## Descripción
+
+[JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
+
+## Correr la app
+
+```bash
+# development
+Copiar el enlace del archivo index.html y abrir en su navegador o simplemente arrastrarlo.
+```
+
+## Testeo
+
+```bash
+# unit tests
+$ npm run test
+```
+
+## Soporte
+
+(https://developer.mozilla.org/en-US/docs/Web/JavaScript).
+
+
 ## Desafío Bsale
 
 <h1 align="center">Desafío producto Bsale</h1>
