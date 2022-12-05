@@ -23,7 +23,8 @@ document.addEventListener('DOMContentLoaded', getProducts)
 // Function to get all the products through the fetch method.
 // Función para obtener todos los productos a través del método fetch.
 function getProducts() {
-  fetch(url)
+  fetch(url), 
+  {mode: 'no-cors'}
     .then(resp => resp.json())
     .then((data) => showProducts(data))
 }
@@ -148,7 +149,7 @@ function searchProduct(e) {
   GET request through fetch to get products by name or match.
   Peticion GET a traves de fetch para obtener los productos por nombre o coincidencia.
   */
-  fetch(`${url}/product?s=${searchBarInput.value}`)
+  fetch(`${url}/product?s=${searchBarInput.value}`), {mode: 'no-cors'}
     .then(resp => resp.json())
     .then((data) => showProducts(data))
 
@@ -183,7 +184,7 @@ Función para obtener los productos por categoría a la que corresponden a trav�
 indicando el EndPoint del backend como parámetro con la categoría por query
 */
 function productsByCategory(category) {
-  fetch(`${url}/category?c=${category}`)
+  fetch(`${url}/category?c=${category}`), {mode: 'no-cors'}
     .then(resp => resp.json())
     .then((data) => showProducts(data))
 }
@@ -191,7 +192,7 @@ function productsByCategory(category) {
 document.addEventListener('DOMContentLoaded', theCategory)
 
 function theCategory() {
-  fetch(urlCategories)
+  fetch(urlCategories), {mode: 'no-cors'}
     .then(resp => resp.json()) 
     .then((data) => showCategory(data))
 }
