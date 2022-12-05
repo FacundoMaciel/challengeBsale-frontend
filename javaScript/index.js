@@ -28,9 +28,9 @@ function getProducts() {
     'headers': {
         'Access-Control-Allow-Origin': '*',
     }
+    .then(resp => resp.json())
+    .then((data) => showProducts(data))
   })
-  .then(resp => resp.json())
-  .then((data) => showProducts(data))
 }
 // Function to display the products indicating their styles and composition of your card.
 // Función para mostrar los productos indicando sus estilos y composición de su tarjeta.
@@ -159,9 +159,9 @@ function searchProduct(e) {
     'headers': {
         'Access-Control-Allow-Origin': '*',
     }
-  })
     .then(resp => resp.json())
     .then((data) => showProducts(data))
+  })
 
 
   // If there is nothing in the input an alert is sent with an error message
@@ -214,9 +214,9 @@ function theCategory() {
       'headers': {
           'Access-Control-Allow-Origin': '*',
       }
+      .then(resp => resp.json()) 
+      .then((data) => showCategory(data))
     })
-    .then(resp => resp.json()) 
-    .then((data) => showCategory(data))
 }
 
 
