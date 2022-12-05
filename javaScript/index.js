@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', getProducts)
 // Función para obtener todos los productos a través del método fetch.
 function getProducts() {
   fetch(url, {
-    'mode': 'cors',
+    'mode': 'no-cors',
     'headers': {
         'Access-Control-Allow-Origin': '*',
     }
@@ -155,7 +155,7 @@ function searchProduct(e) {
   */
   fetch(`${url}/product?s=${searchBarInput.value}`,
   {
-    'mode': 'cors',
+    'mode': 'no-cors',
     'headers': {
         'Access-Control-Allow-Origin': '*',
     }
@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', theCategory)
 function theCategory() {
   fetch(urlCategories, 
     {
-      'mode': 'cors',
+      'mode': 'no-cors',
       'headers': {
           'Access-Control-Allow-Origin': '*',
       }
