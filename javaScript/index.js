@@ -23,10 +23,14 @@ document.addEventListener('DOMContentLoaded', getProducts)
 // Function to get all the products through the fetch method.
 // Función para obtener todos los productos a través del método fetch.
 function getProducts() {
-  fetch(url), 
-  {mode: 'no-cors'}
-    .then(resp => resp.json())
-    .then((data) => showProducts(data))
+  fetch(url, {
+    'mode': 'cors',
+    'headers': {
+        'Access-Control-Allow-Origin': '*',
+    }
+  })
+  .then(resp => resp.json())
+  .then((data) => showProducts(data))
 }
 // Function to display the products indicating their styles and composition of your card.
 // Función para mostrar los productos indicando sus estilos y composición de su tarjeta.
@@ -149,7 +153,13 @@ function searchProduct(e) {
   GET request through fetch to get products by name or match.
   Peticion GET a traves de fetch para obtener los productos por nombre o coincidencia.
   */
-  fetch(`${url}/product?s=${searchBarInput.value}`), {mode: 'no-cors'}
+  fetch(`${url}/product?s=${searchBarInput.value}`,
+  {
+    'mode': 'cors',
+    'headers': {
+        'Access-Control-Allow-Origin': '*',
+    }
+  })
     .then(resp => resp.json())
     .then((data) => showProducts(data))
 
@@ -184,7 +194,13 @@ Función para obtener los productos por categoría a la que corresponden a trav�
 indicando el EndPoint del backend como parámetro con la categoría por query
 */
 function productsByCategory(category) {
-  fetch(`${url}/category?c=${category}`), {mode: 'no-cors'}
+  fetch(`${url}/category?c=${category}`, 
+  {
+    'mode': 'cors',
+    'headers': {
+        'Access-Control-Allow-Origin': '*',
+    }
+  })
     .then(resp => resp.json())
     .then((data) => showProducts(data))
 }
@@ -192,7 +208,13 @@ function productsByCategory(category) {
 document.addEventListener('DOMContentLoaded', theCategory)
 
 function theCategory() {
-  fetch(urlCategories), {mode: 'no-cors'}
+  fetch(urlCategories, 
+    {
+      'mode': 'cors',
+      'headers': {
+          'Access-Control-Allow-Origin': '*',
+      }
+    })
     .then(resp => resp.json()) 
     .then((data) => showCategory(data))
 }
